@@ -1,5 +1,5 @@
-# directory-template
-Create SEO optimized directory services using Codehooks.io as a backend
+# docs-template
+Create SEO optimized API docs using Codehooks.io as a backend
 
 ## Installation
 

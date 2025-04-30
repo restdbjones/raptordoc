@@ -11,7 +11,7 @@
   <!-- Open Graph / Facebook -->
   <meta property='og:type' content='website' />
   <meta property='og:title' content='{{title}}' />
-  <meta property='og:description' content='Directory of essential developer tools' />
+  <meta property='og:description' content='RaptorDoc - Document your API like a pro' />
   <meta property='og:image' content='{{baseUrl}}/og-image.png' />
 
   <!-- Twitter -->
@@ -19,7 +19,7 @@
   <meta property='twitter:title' content='{{title}}' />
   <meta
     property='twitter:description'
-    content='Directory of essential developer tools'
+    content='RaptorDoc - Document your API like a pro'
   />
   <meta property='twitter:image' content='{{baseUrl}}/og-image.png' />
   <!-- <script src="https://cdn.tailwindcss.com"></script> -->
@@ -28,7 +28,7 @@
   <script src="/js/mybundle.js?cachebrk={{cacheBreaker}}" defer></script>
   <script src="https://youthful-watershed-23b6.codehooks.io/script.js" defer="true" referrerpolicy="no-referrer-when-downgrade"></script>
   <link href="/css/mystyles.css?cachebrk={{cacheBreaker}}" rel="stylesheet" type="text/css" />
-  
+  <link href="/css/github-dark.min.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -91,22 +91,22 @@
             <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
             <ul class="menu bg-base-200 text-base-content w-80 p-4">
               <!-- Mobile-only menu items -->
-              <li class="lg:hidden"><a href="/">Home</a></li>
+              <li><a href="/">Home</a></li>
               <li class="lg:hidden"><a href="/about">About</a></li>
               <li class="lg:hidden"><div class="divider"></div></li>
-              <li><a href="/bigbrands">Big Brands <div class="badge badge-sm">9</div></a></li>
-              <!-- Sidebar content here -->
-              {{#each directories}}
-              <li>
-                  <a href="/listing/{{categorySlug}}" class="{{#if (eq ../category categorySlug)}}menu-active{{/if}}">{{name}} <div class="badge badge-sm">{{count}}</div></a>
-              </li>
+              
+              <!-- Sidebar content here -->                            
+              
+              <!-- sidebars -->
+              {{#each sidebars}}
+                {{> menuNode this}}
               {{/each}}
             </ul>
           </div>
         </div>
 
         <!-- Main Content Area -->
-        <div class="flex-1 max-w-[1200px] mx-auto">
+        <div class="flex-1 max-w-[1200px] mx-auto w-full">
           {{#block "main"}}
           {{/block}}
         </div>

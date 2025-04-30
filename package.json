@@ -1,18 +1,15 @@
 {
-  "name": "simple_web",
+  "name": "raptordoc",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
     "clean": "coho dropcollection --collection 'listings' && coho query _kvspacecache --delete",
     "mock": "npm run clean && coho createcollection --collection 'listings' && coho import -f bin/testdata-sneakers.json -c listings",
-    "screenshot": "coho query listings > build/database-listings.json && node bin/screenshotutil/batch.js build/database-listings.json ~/tmp/screenshots",
-    "uploadscreenshots": "coho file-upload --src ~/tmp/screenshots --target '/screenshots'",
     "setup": "npm run clean && coho createcollection --collection 'listings' && coho import -f build/output.json -c listings",
-    "buildsitemap": "node bin/buildsitemap.js",
     "buildindex": "coho query listings > build/database-listings.json && node bin/buildindex.js",
-    "css": "npx @tailwindcss/cli -i ./web/css/input.css -o ./web/css/mystyles.css",
+    "css": "npx @tailwindcss/cli -i ./src/web/css/input.css -o ./src/web/css/mystyles.css",
     "build": "node -e \"require('fs').mkdirSync('build', { recursive: true })\" && npm run css && npm run buildindex",
-    "bundle": "esbuild ./clientscript.js --bundle --minify --outfile=./web/js/mybundle.js",
+    "bundle": "esbuild ./src/clientscript.js --bundle --minify --outfile=./src/web/js/mybundle.js",
     "clearcache": "coho query _kvspacecache --delete",
     "deploy": "npm run build && npm run bundle && npm run clearcache && codehooks deploy -d && codehooks logs --follow"
   },
@@ -20,9 +17,14 @@
     "@tailwindcss/cli": "^4.0.14",
     "codehooks-js": "^1.2.20",
     "daisyui": "^5.0.6",
+    "gray-matter": "^4.0.3",
     "handlebars": "^4.7.8",
     "handlebars-layouts": "^3.1.4",
-    "lunr": "^2.3.9"
+    "highlight.js": "^11.11.1",
+    "js-yaml": "^4.1.0",
+    "lunr": "^2.3.9",
+    "marked": "^15.0.11",
+    "marked-highlight": "^2.2.1"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.16",

@@ -38,5 +38,5 @@ const idx = lunr(function () {
 })
 
 const serialized = JSON.stringify(idx)
-fs.writeFileSync('web/js/lunr-index.json', serialized)
-fs.writeFileSync('web/js/show-hits-data.json', JSON.stringify(showHitsData))
+fs.writeFileSync('src/web/js/lunr-index.json', serialized)
+fs.writeFileSync('src/web/js/show-hits-data.json', JSON.stringify(showHitsData))

@@ -1,0 +1,30 @@
+menu:
+  - title: Getting Started
+    document: start.md
+  - title: Database API
+    document: test.md
+  - title: API details
+    open: true
+    items:
+      - title: InsertOne
+        document: test.md#insertone-collection-document
+      - title: Markdown test document
+        document: markdowntest.md
+      - title: examples-overview
+        document: examples-overview.md
+  - title: API docs
+    open: true
+    items:
+      - title: Codeexamples
+        document: codeexamples.md
+      - title: Appeventapi
+        document: appeventapi.md
+      - title: Cli
+        document: cli.md
+      - title: Sub menu
+        items:
+          - title: ex1
+            document: ex1.md
+          - title: ex2
+            document: ex2.md
+      

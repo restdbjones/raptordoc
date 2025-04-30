@@ -1,11 +1,8 @@
 import { Datastore } from 'codehooks-js'
 import handlebars from 'handlebars';
-import bannerAd from './web/templates/ad1.hbs';
 const CACHE_ON = true;
 const ONE_HOUR = 1000*60*60;
 const ONE_MONTH = 1000*60*60*24*30;
-
-const compiled = handlebars.compile(bannerAd);
 
 // Cache helper
 async function getCached(key, loader, ttl = ONE_HOUR) {
@@ -147,17 +144,6 @@ async function writeSitemapToResponse(res, host) {
     res.end();
 }
 
-// Register banner ad helper
-handlebars.registerHelper('bannerAd', function(options) {
-    const { link, image, text, linkText, title  } = options.hash;
-    try {        
-        const adstr = compiled({ link, image, text, linkText, title });
-        return new handlebars.SafeString(adstr);
-    } catch (err) {
-        console.error('Error compiling banner ad:', err);
-        return '';
-    }
-});
 
 // Register the equals Handlebarshelper
 handlebars.registerHelper('eq', function(a, b, options) {
@@ -170,6 +156,48 @@ handlebars.registerHelper('eq', function(a, b, options) {
     
     return a === b;
 });
+
+// Helpers
+handlebars.registerHelper('isArray', function(value, options) {
+    if (Array.isArray(value)) {
+      return options.fn(this);
+    }
+    return options.inverse(this);
+  });
+  
+  handlebars.registerHelper('isObject', function(value, options) {
+    if (typeof value === 'object' && !Array.isArray(value)) {
+      return options.fn(this);
+    }
+    return options.inverse(this);
+  });
+  
+  // Register partial
+  
+  handlebars.registerPartial('menuNode', `
+  <ul>
+    {{#each this}}
+      <li>        
+        {{#isObject this}}
+          {{#if this.items}}
+            <details {{#if this.open}}open{{/if}}>
+              <summary>{{this.title}}</summary>
+              {{> menuNode this.items}}
+            </details>
+          {{else}}
+            <a href="/docs/{{this.document}}">
+              {{#if this.icon}}{{this.icon}} {{/if}}{{this.title}}
+            </a>
+          {{/if}}
+        {{else}}
+          <a href="/docs/{{this}}">
+            {{this}}
+          </a>
+        {{/isObject}}
+      </li>
+    {{/each}}
+  </ul>
+  `);
 
 const setCacheHeaders = (res) => {
     console.log('If you see this, the client cache is invalidated or called for the first time');        
