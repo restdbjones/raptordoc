@@ -5,8 +5,8 @@ Create SEO optimized API docs using Codehooks.io as a backend
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/RestDB/directory-template
-cd directory-template
+git clone https://github.com/restdbjones/raptordoc
+cd raptordoc
 ```
 
 2. If you don't have an account, sign up for an account at [Codehooks.io](https://account.codehooks.io/login?signup) and install the CLI:
@@ -24,76 +24,42 @@ npm install
 coho init --empty
 ```
 
-## Setup with Mock Data
+## Setup sidebar menu
 
-```bash
-npm run mock
+Edit the `sidebars.yaml` file and add menu items for your markdown files.
+
+```yaml
+menu:
+  - title: Getting Started
+    document: start.md
+  - title: My API
+    document: api.md
+  - title: My submenu
+    open: true
+    items:
+      - title: Child setup
+        document: child.md#anchor-link
 ```
 
-This command initializes your directory service with sample data from `bin/testdata-sneakers.json`. The mock data includes:
+## Edit your markdown files
 
-- Sneaker listings with detailed product information
-- Categories like Nike, Adidas, Reebok, Puma, and Converse
-- SEO-optimized content with keywords and descriptions
-- Rich metadata including images, features, and specifications
-- Hierarchical organization with categories and directories
-
-Each listing contains:
-- Title and SEO-friendly slug
-- Category and directory classification (e.g., basketball, lifestyle, running)
-- Detailed product specifications (materials, sole type, cushioning, etc.)
-- Featured status indicators (topFeature, categoryFeature)
-- High-quality product descriptions and ingress text
-- Image URLs and website links
-- Company name and brand information
-
-The mock data creates a fully functional directory service, perfect for testing and development before adding your own content.
-
-## Example directory sites built with this template
-
-- [digihub.no](https://digihub.no)
-- [alltoolz.dev](https://alltoolz.dev)
-
-## Deployment
-
-1. Deploy the backend to Codehooks.io:
-```bash
-npm run deploy
-```
-
-This command deploys both the backend service and the client application. After deployment:
-
-1. Your service will be available at your project's auto-generated domain:
-   ```
-   https://your-project-name.codehooks.io
-   ```
-   (e.g., `https://rapid-fox-f20c.codehooks.io`)
-
-2. The deployment includes:
-   - Backend API endpoints for managing listings
-   - Frontend client application with complete UI
-   - Sample data (if you ran the mock setup)
-   - SEO-optimized pages for all listings
-
-Visit your project's domain to see the live directory service in action.
-
-## Create automatic screenshots
-There's a utility tool that let's you create a screenshot for each url in the database.
-
-Run this command to create a local folder `~/tmp/screenshots` of screenshots:
-```
-npm run screenshot  
-```
-
-This may take a while - grab a coffee or tea ☕️.
-
-After the local screenshots have been created, you may upload all to the Codehooks blob storage with this command:
+Open the `docs` folder and add your files and content.
 
 ```
-npm run uploadscreenshots
-```
+---
+slug: my-special-api
+title: My API
+keywords: [
+  "XXX API",
+  "XXX Database",
+  "CRUD Operations XXX",
+]
+---
 
-This may also take some time - refill your cup ☕️.
+# My API
+
+The API provides a ...
+```
 
 ## UI Customization
 
