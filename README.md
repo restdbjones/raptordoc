@@ -116,8 +116,6 @@ module.exports = {
 The project includes several useful NPM commands for development and deployment:
 
 ### Development Commands
-- `npm run clean` - Cleans the database by dropping the 'listings' collection and clearing the cache
-- `npm run mock` - Initializes the database with sample sneaker data from `bin/testdata-sneakers.json`
 - `npm run css` - Generates CSS files using Tailwind CSS
 - `npm run bundle` - Bundles and minifies client-side JavaScript using esbuild
 - `npm run clearcache` - Clears the Codehooks.io cache
@@ -125,11 +123,6 @@ The project includes several useful NPM commands for development and deployment:
 ### Build Commands
 - `npm run build` - Creates the build directory, generates CSS, and builds the search index
 - `npm run buildindex` - Generates the search index from the database listings
-- `npm run buildsitemap` - Generates the sitemap for the website
-
-### Screenshot Commands
-- `npm run screenshot` - Creates screenshots of all listings and saves them to `~/tmp/screenshots`
-- `npm run uploadscreenshots` - Uploads the generated screenshots to Codehooks.io blob storage
 
 ### Deployment Commands
 - `npm run deploy` - Builds the project, bundles JavaScript, clears cache, and deploys to Codehooks.io
