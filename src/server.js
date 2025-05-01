@@ -222,10 +222,16 @@ function parseMarkdown(markdownContent) {
     
     // Parse the markdown content
     const htmlContent = marked.parse(markdownBody);
-    console.log('props', props);
+    const compiledBody = handlebars.compile(htmlContent);
+    const mappedProps = {};
+    for (const [key, value] of Object.entries(props)) {
+        mappedProps[key] = typeof value === 'string' ? marked.parseInline(value) : value;
+    }
+    const html = compiledBody({...mappedProps, settings});
+    console.log('props', mappedProps);
     return {
         props,
-        html: htmlContent
+        html: html
     };
 }
 
@@ -239,9 +245,9 @@ app.static({ route: "/images", directory: "/docs/img", notFound: "/404.html" }, 
 // render the index page
 app.get('/', async (req, res) => {
     console.log('docs', req.apiPath);
-        const file = await filestore.readFile('/docs/index.md', { source: true });
-        const { html, props } = parseMarkdown(file);
-        res.send(await renderPage('docpage', { sidebars: sidebars, title: 'Home', html, baseUrl: settings.baseUrl, cacheBreaker }));
+    const file = await filestore.readFile('/docs/index.md', { source: true });
+    const { html, props } = parseMarkdown(file);
+    res.send(await renderPage('docpage', { sidebars: sidebars, title: settings.title, html, baseUrl: settings.baseUrl, cacheBreaker }));
 });
 
 // get a file text content
@@ -250,7 +256,7 @@ app.get('/docs/*', async (req, res) => {
         console.log('docs', req.apiPath);
         const file = await filestore.readFile(req.apiPath, { source: true });
         const { html, props } = parseMarkdown(file);
-        res.send(await renderPage('docpage', { sidebars: sidebars, title: 'My doc', html, baseUrl: settings.baseUrl, cacheBreaker }));
+        res.send(await renderPage('docpage', { sidebars: sidebars, title: settings.title, html, baseUrl: settings.baseUrl, cacheBreaker }));
     } catch (error) {
         console.error(error);
         res.status(404).end('No file here')
@@ -274,7 +280,7 @@ app.get('/contact', async (req, res) => {
 app.get('/about', async (req, res) => {
     console.log('about');
     const directories = await loadDirectoriesCached();
-    res.send(await renderPage('about', { sidebars, baseUrl: settings.baseUrl, cacheBreaker }));
+    res.send(await renderPage('about', { sidebars, title: settings.title, baseUrl: settings.baseUrl, cacheBreaker }));
 });
 
 

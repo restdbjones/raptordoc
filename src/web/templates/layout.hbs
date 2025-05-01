@@ -71,7 +71,7 @@
           </div>
           <div class="navbar-end">
             <ul class="menu menu-horizontal px-1 hidden lg:flex">
-              <li><a href="/about" class="font-medium">About</a></li>              
+              <li><a href="/docs/about.md" class="font-medium">About</a></li>              
             </ul>
           </div>
         </div>
@@ -89,10 +89,10 @@
           </div>
           <div class="drawer-side h-full z-50">
             <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
-            <ul class="menu bg-base-200 text-base-content w-80 p-4">
+            <ul class="menu menu-lg bg-base-200 text-base-content w-80 p-4">
               <!-- Mobile-only menu items -->
               <li><a href="/">Home</a></li>
-              <li class="lg:hidden"><a href="/about">About</a></li>
+              <li class="lg:hidden"><a href="/docs/about.md">About</a></li>
               <li class="lg:hidden"><div class="divider"></div></li>
               
               <!-- Sidebar content here -->                            
@@ -106,7 +106,7 @@
         </div>
 
         <!-- Main Content Area -->
-        <div class="flex-1 max-w-[1200px] mx-auto w-full">
+        <div class="flex-1 w-full">
           {{#block "main"}}
           {{/block}}
         </div>

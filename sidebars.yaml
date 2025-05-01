@@ -19,12 +19,5 @@ menu:
         document: codeexamples.md
       - title: Appeventapi
         document: appeventapi.md
-      - title: Cli
-        document: cli.md
-      - title: Sub menu
-        items:
-          - title: ex1
-            document: ex1.md
-          - title: ex2
-            document: ex2.md
-      
+      - title: CLI
+        document: advanced/cli.md

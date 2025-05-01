@@ -1,109 +1,143 @@
-# API Documentation for killer devs
 
 <div class="flex justify-center items-center w-full">
-  <img src="/images/raptordoc.png" alt="raptordoc image" class="w-auto mx-auto" />
+  <img src="/images/raptordoc.png" alt="raptordoc image" width="300px" class="w-auto mx-auto" />
 </div>
 
-```js
-const raptor = new Raptor();
-console.log(raptor.createDocs());
-```
+# API docs the easy way
 
-Welcome to our API documentation. This guide will help you understand how to use our API effectively.
+Create SEO optimized API docs using Codehooks.io as a backend
 
-## Getting Started
+## Installation
 
-### Prerequisites
-- API Key
-- Basic understanding of REST APIs
-- HTTP client (Postman, cURL, etc.)
-
-### Authentication
-All API requests require authentication using your API key. Include it in the request header:
-
-```http
-Authorization: Bearer YOUR_API_KEY
-```
-
-## API Endpoints
-
-### Base URL
-```
-https://api.example.com/v1
-```
-
-### Available Resources
-
-| Resource | Description | Endpoint |
-|----------|-------------|----------|
-| Users | Manage user accounts | `/users` |
-| Products | Product catalog | `/products` |
-| Orders | Order management | `/orders` |
-
-## Rate Limiting
-
-Our API implements rate limiting to ensure fair usage:
-- 100 requests per minute
-- 1000 requests per hour
-
-## Error Handling
-
-The API uses standard HTTP response codes:
-
-| Code | Description |
-|------|-------------|
-| 200 | Success |
-| 400 | Bad Request |
-| 401 | Unauthorized |
-| 403 | Forbidden |
-| 404 | Not Found |
-| 429 | Too Many Requests |
-| 500 | Internal Server Error |
-
-## Code Examples
-
-### cURL
+1. Clone the repository:
 ```bash
-curl -X GET "https://api.example.com/v1/users" \
-     -H "Authorization: Bearer YOUR_API_KEY"
+git clone https://github.com/restdbjones/raptordoc
+cd raptordoc
 ```
 
-### Python
-```python
-import requests
+2. If you don't have an account, sign up for an account at [Codehooks.io](https://account.codehooks.io/login?signup) and install the CLI:
+```bash
+npm install -g codehooks
+```
 
-headers = {
-    'Authorization': 'Bearer YOUR_API_KEY'
+3. Install dependencies:
+```bash
+npm install
+```
+
+4. Connect local project to your Codehooks.io project:
+```bash
+coho init --empty
+```
+
+## Setup sidebar menu
+
+Edit the `sidebars.yaml` file and add menu items for your markdown files.
+
+```yml
+menu:
+  - title: Getting Started
+    document: start.md
+  - title: My API
+    document: api.md
+  - title: My submenu
+    open: true
+    items:
+      - title: Child setup
+        document: child.md#anchor-link
+```
+
+## Edit your markdown files
+
+Open the `docs` folder and add your files and content.
+
+```
+---
+slug: my-special-api
+title: My API
+keywords: [
+  "XXX API",
+  "XXX Database",
+  "CRUD Operations XXX",
+]
+---
+
+# My API
+
+The API provides a ...
+```
+
+## UI Customization
+
+This project uses [DaisyUI](https://daisyui.com/) and [Tailwind CSS](https://tailwindcss.com/) for styling.
+
+### DaisyUI Theme Customization
+
+The theme configuration is managed in `web/css/input.css` using DaisyUI's plugin syntax:
+
+```css
+@plugin "daisyui" {
+    themes: light --default, dark, night;
 }
-
-response = requests.get('https://api.example.com/v1/users', headers=headers)
 ```
 
-### JavaScript
+This configuration:
+- Sets `light` as the default theme
+- Includes `dark` and `night` themes as alternatives
+- Users can switch between these themes using DaisyUI's theme change utilities
+
+To modify available themes:
+1. Edit the themes list in `web/css/input.css`
+2. Choose from [DaisyUI's built-in themes](https://daisyui.com/docs/themes/)
+3. You can also add custom themes following DaisyUI's theming guidelines
+
+### Tailwind CSS Customization
+
+1. Extend or modify Tailwind's default configuration in `tailwind.config.js`:
 ```javascript
-fetch('https://api.example.com/v1/users', {
-  headers: {
-    'Authorization': 'Bearer YOUR_API_KEY'
-  }
-})
-.then(response => response.json())
-.then(data => console.log(data));
+module.exports = {
+  theme: {
+    extend: {
+      spacing: {
+        '128': '32rem',
+      },
+      colors: {
+        'custom-blue': '#1234567',
+      },
+      // Add more customizations
+    },
+  },
+}
 ```
 
-## Support
+2. Use custom classes in your components:
+```jsx
+<div className="text-custom-blue p-128">
+  Custom styled content
+</div>
+```
 
-If you need help or have questions:
-- Email: support@example.com
-- Documentation: [Full API Reference](reference.md)
-- Status Page: [API Status](https://status.example.com)
+## NPM commands in package.json
 
-## Changelog
+The project includes several useful NPM commands for development and deployment:
 
-### Version 1.0.0 (2024-03-20)
-- Initial release
-- Basic CRUD operations
-- Authentication system
+### Development Commands
+- `npm run css` - Generates CSS files using Tailwind CSS
+- `npm run bundle` - Bundles and minifies client-side JavaScript using esbuild
+- `npm run clearcache` - Clears the Codehooks.io cache
 
-## License
+### Build Commands
+- `npm run build` - Creates the build directory, generates CSS, and builds the search index
+- `npm run buildindex` - Generates the search index from the database listings
 
-This API is licensed under the MIT License. See our [LICENSE](LICENSE) file for details.
+### Deployment Commands
+- `npm run deploy` - Builds the project, bundles JavaScript, clears cache, and deploys to Codehooks.io
+
+### Setup Commands
+- `npm run setup` - Cleans the database, creates the listings collection, and imports data from `build/output.json`
+
+## Learn More
+
+- [Codehooks.io Documentation](https://codehooks.io/docs)
+- [DaisyUI Documentation](https://daisyui.com/docs/install/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)

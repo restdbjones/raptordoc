@@ -6,7 +6,7 @@
     "clean": "coho dropcollection --collection 'listings' && coho query _kvspacecache --delete",
     "mock": "npm run clean && coho createcollection --collection 'listings' && coho import -f bin/testdata-sneakers.json -c listings",
     "setup": "npm run clean && coho createcollection --collection 'listings' && coho import -f build/output.json -c listings",
-    "buildindex": "coho query listings > build/database-listings.json && node bin/buildindex.js",
+    "buildindex": "node bin/buildindex.js",
     "css": "npx @tailwindcss/cli -i ./src/web/css/input.css -o ./src/web/css/mystyles.css",
     "build": "node -e \"require('fs').mkdirSync('build', { recursive: true })\" && npm run css && npm run buildindex",
     "bundle": "esbuild ./src/clientscript.js --bundle --minify --outfile=./src/web/js/mybundle.js",

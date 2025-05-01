@@ -1,3 +1,8 @@
+---
+title: testing
+prop1: some dynamic data
+---
+
 # Markdown: Syntax
 
 *   [Overview](#overview)
@@ -27,6 +32,11 @@ can [see the source for it by adding '.text' to the URL](/projects/markdown/synt
 ----
 
 ## Overview
+
+### {{settings.title}}
+This content is dynamic **{{prop1}}** nothing {{xxx}} here.
+
+A dynamic function {{myfunc}}
 
 ### Philosophy
 

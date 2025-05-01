@@ -199,6 +199,10 @@ handlebars.registerHelper('isArray', function(value, options) {
   </ul>
   `);
 
+  handlebars.registerPartial('myfunc', ()=>{
+    return new handlebars.SafeString('<p>This is a dynamic function</p>');
+  });
+
 const setCacheHeaders = (res) => {
     console.log('If you see this, the client cache is invalidated or called for the first time');        
     res.set('Cache-Control', `public, max-age=2592000, s-maxage=2592000`);
