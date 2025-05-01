@@ -219,17 +219,18 @@ function parseMarkdown(markdownContent) {
     }
     
     // Parse the markdown content
-    const htmlContent = marked.parse(markdownBody);
-    const compiledBody = handlebars.compile(htmlContent);
+    
+    const compiledBody = props.handlebars ? handlebars.compile(markdownBody) : markdownBody;
     const mappedProps = {};
     for (const [key, value] of Object.entries(props)) {
         mappedProps[key] = typeof value === 'string' ? marked.parseInline(value) : value;
     }
-    const html = compiledBody({...mappedProps, settings});
+    const md = props.handlebars ? compiledBody({...mappedProps, settings}) : compiledBody;
+    const htmlContent = marked.parse(md);
     console.log('props', mappedProps);
     return {
         props,
-        html: html
+        html: htmlContent
     };
 }
 

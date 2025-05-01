@@ -2,29 +2,34 @@
 id: nodenosql
 slug: nosql-database-api
 title: Database API
-tags: [nosql, database,'nosql dbs', query, crud, stream]
-keywords: [
-  "NoSQL Database API",
-  "Serverless NoSQL Database",
-  "CRUD Operations NoSQL",
-  "Data Streaming API",
-  "JavaScript Database API",
-  "Datastore.open()",
-  "InsertOne NoSQL",
-  "GetOne Query NoSQL",
-  "UpdateOne NoSQL",
-  "RemoveOne NoSQL",
-  "JSON Schema Validation",
-  "NoSQL Collection Management",
-  "Serverless Data Storage",
-  "NoSQL Query Language",
-  "NoSQL Data Manipulation",
-  "How to use NoSQL database",
-  "NoSQL vs SQL",
-  "Best practices for NoSQL",
-  "NoSQL performance optimization",
-  "NoSQL data modeling"
-]
+tags:
+  - nosql
+  - database
+  - nosql dbs
+  - query
+  - crud
+  - stream
+keywords:
+  - NoSQL Database API
+  - Serverless NoSQL Database
+  - CRUD Operations NoSQL
+  - Data Streaming API
+  - JavaScript Database API
+  - Datastore.open()
+  - InsertOne NoSQL
+  - GetOne Query NoSQL
+  - UpdateOne NoSQL
+  - RemoveOne NoSQL
+  - JSON Schema Validation
+  - NoSQL Collection Management
+  - Serverless Data Storage
+  - NoSQL Query Language
+  - NoSQL Data Manipulation
+  - How to use NoSQL database
+  - NoSQL vs SQL
+  - Best practices for NoSQL
+  - NoSQL performance optimization
+  - NoSQL data modeling
 ---
 
 # Database API

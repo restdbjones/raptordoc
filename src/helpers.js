@@ -199,8 +199,8 @@ handlebars.registerHelper('isArray', function(value, options) {
   </ul>
   `);
 
-  handlebars.registerPartial('myfunc', ()=>{
-    return new handlebars.SafeString('<p>This is a dynamic function</p>');
+  handlebars.registerHelper('myfunc', (value, options)=>{
+    return new handlebars.SafeString('<p>This is a dynamic function, you passed in: ' + value + '</p>');
   });
 
 const setCacheHeaders = (res) => {

@@ -1,9 +1,12 @@
+---
+handlebars: false
+---
 
 <div class="flex justify-center items-center w-full">
   <img src="/images/raptordoc.png" alt="raptordoc image" width="300px" class="w-auto mx-auto" />
 </div>
 
-# API docs the easy way
+# Keep's your docs alive
 
 Create SEO optimized API docs using Codehooks.io as a backend
 
@@ -30,6 +33,23 @@ npm install
 coho init --empty
 ```
 
+## Setup your configuration
+
+Edit the `raptordoc.config.js`.
+
+```js
+const settings = {
+	"title": "Raptordoc",
+	"version": "1.0.0",
+	"baseUrl": "https://captivating-quarry-e890.codehooks.io",
+	"ingress": `		
+		RaptorDoc - Keep's your docs alive
+	`,
+	"sidebars": "sidebars.yml"
+}
+export default settings;
+```
+
 ## Setup sidebar menu
 
 Edit the `sidebars.yaml` file and add menu items for your markdown files.
@@ -50,22 +70,22 @@ menu:
 ## Edit your markdown files
 
 Open the `docs` folder and add your files and content.
+> Note that you can access dynamic variables from you config props in the markdown content.
 
+```md
+# Fancy API
+
+Welcome to {{settings.version}} of the **awesome** API that ...
 ```
----
-slug: my-special-api
-title: My API
-keywords: [
-  "XXX API",
-  "XXX Database",
-  "CRUD Operations XXX",
-]
----
 
-# My API
+## Deploy
+After configuring settings, adding menues and content you can deploy the docs to the cloud service using the Codehooks CLI.
 
-The API provides a ...
+```sh
+npm run deploy
 ```
+
+That's it, keeping your docs alive has never been easier.
 
 ## UI Customization
 

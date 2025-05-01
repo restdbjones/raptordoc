@@ -1,9 +1,12 @@
 ---
 title: RaptorDoc
+handlebars: true
 repo: "[GitHub repository](https://github.com/restdbjones/raptordoc)"
 README: "[documentation](https://github.com/restdbjones/raptordoc/blob/main/README.md)"
 ---
 # About {{title}} {{settings.version}}
+
+{{myfunc "Hello"}}
 
 ## Create Beautiful Documentation with {{title}}
 
