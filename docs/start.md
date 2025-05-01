@@ -1,361 +1,202 @@
-# Query language
+---
+id: quickstart-cli
+title: Getting started
+slug: /quickstart-cli
+tags: [introduction, CLI]
+keywords: [
+  "Codehooks CLI Quickstart",
+  "Serverless Project Creation",
+  "CLI for Backend Development",
+  "JavaScript Function Deployment",
+  "Codehooks CLI Installation",
+  "Create Serverless Codehook",
+  "Deploy Code to Cloud",
+  "Backend Development Tutorial",
+  "Command Line Interface Guide",
+  "Codehooks Project Setup"
+]
+---
+# Quickstart
 
-What is a NoSQL Query? Querying your [NoSQL](https://en.wikipedia.org/wiki/NoSQL) database is essential in many applications. The codehooks.io NoSQL database use a subset of the popular [MongoDB](https://mongodb.com) NoSQL query language.
-NoSQL queries are used in the [database API](nosql-database-api) to find and filter data.
-NoSQL database queries are powerful tools for developing backend application logic.
-
-<div class="alert alert-info mt-6">
-<div>
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-<span>
-REST API query
-The NoSQL query language can be used directly for REST API queries when you use the 'crudlify' API. Read more about using REST API queries <a href="/docs/database-rest-api">on this page</a>.
-</span>
-</div>
-</div>
+This short tutorial will show you how to create codehooks projects and spaces using the command line interface (CLI). Check out the [concepts](concepts) page for a more in-depth introduction. To use the Studio to create projects, check out this [quickstart](/docs).
 
 
-## NoSQL Query Example: A Complete Code Example for a Database REST API
+## Install the CLI
 
-The example serverless JavaScript function below shows how to create a REST API that runs a NoSQL query against the database to fetch 100 items from the `customers` collection `where` the `customer.status` equals `GOLD`.
+Install the Codehooks command line interface (CLI), this lets you fully manage your projects from the command line.
 
-```js {5}
-import {app, Datastore} from 'codehooks-js'
 
-async function getData(req, res) {
-    const conn = await Datastore.open();
-    const query = {"status": "GOLD"};
-    const options = {
-        limit:100
-    }
-    conn.getMany('customers', query, options).json(res);
-}
-
-// Serverless REST API and query route
-app.get('/customers', getData);
-
-export default app.init(); // Bind functions to the serverless runtime
+```bash
+npm i -g codehooks
 ```
+> You need [Node.js](https://nodejs.org) to install the CLI.
 
-:::note
-All query fields are case sensitive.
+:::tip Use 'Dev containers' to set up your codehooks development environment
+Our CLI requires use of the terminal window, which can sometimes be challenging especially for Windows users. Check out our blog post about [how to set up a dev container](/blog/simplify-codehooks-development-with-devcontainers) for simplified and more consistent codehooks.io development environment on all platforms. 
 :::
 
-## Filtering data from the database
+## Sign up and Log in
 
-![Filter data using REST API NoSQL Query and logical operators](/images/Search.png)
+Next you need to sign up / log in to your account (it's totally free), in this example we use a Github account. Your browser will open and direct you a  secure login page, and there you can return to the CLI - logged in.
 
-Filtering are performed using a combination of filters, logical and conditional operators explained below.
-
-### Quick overview
-|Operator|Description|Example|
-|---|:---|---|
-|field | Match a single field value | `{"field": "value"}` |
-|fields | Match multiple fields and values | `{"field1": "value1", "field2": "value2"}` |
-|[$regex](#regex-operator)  | Match field with a regular expression |`{"field" : {$regex : "^foo"}}`|
-|[$startsWith](#startswith-operator) | Match field with start string segment | `{"field": {"$startsWith": "value"}}` |
-|[$endssWith](#endswith-operator) | Match field with end string segment | `{"field": {"$endsWith": "value"}}` |
-
-### Match multiple fields
-
-Multiple fields are matched by name-value pairs in the a query:
-
-```js
-const query = {"field1": "value1", "field2": "value2"}
+```bash
+coho login
 ```
 
-This is actually the same as using the `$and` operator: 
+Then choose login method, e.g. Github.
 
-```js
-const query = {$and: [{"field1": "value1"}, {"field2": "value2"}]}
+```bash
+Select option below
+
+❯ Use Github
+  Use Google
+  Exit
 ```
 
+## Create project
 
-### Match sub fields
+Lets go forward and create a new project on your account.
+A project contains the source code for your serverless functions.
 
-Sub fields are matched by dot.property in the URL query parameter: 
+```bash
+coho create myproject
+```
+Follow the guide to create a personal or team project type.
 
-```js
-const query = {"field1.property": "value1"}
+Finally change directory to the new project and install the Codehooks standard library.
+
+```bash
+cd myproject
 ```
 
-If your sub propery is an array, you must use the [$elemMatch](#elemmatch-operator) operator.
+The `coho create` command has now created a new project space and generated a unique name for the API, in this example it's named `myproject-2b39` and `dev`.
+Your account will be the owner of the project. This can be changed later.
 
-### **$regex** operator
-Match a [regular expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Cheatsheet) against field. Optional `$options` values [docs.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#advanced_searching_with_flags)
+:::note Deploy code to an existing project
+If you have an existing project you'd like to use, for example created with the Studio application, you can connect and deploy the code to that project using the [CLI command](/docs/cli#init) `coho init` instead of `coho create`.
+:::
 
-```js
-const query = {"name" : {$regex : "^joe", $options: "i"}}
+## Create a serverless JavaScript Codehook
 
-// or with native JS Regex
-const query = {"name" : /^joe/}}
+First, in the project directory, install the Codehooks standard open source libraries [codehooks-js](https://www.npmjs.com/package/codehooks-js).
+
+```bash
+npm i codehooks-js
 ```
 
-### **$startsWith** operator
-
-Field is matched by starting string of value: 
-
-```js
-const query = {"Player": {"$startsWith": "Lionel"}}
-```
-
-### **$endsWith** operator
-
-Field is matched by ending string of value: 
-
-```js
-const query = {"Player": {"$endsWith": "Messi"}}
-```
+Next, start your favorite code editor and open the auto generated `index.js` in your project directory. 
 
 
-
-## Logical operators
-
-### Quick overview
-|Operator|Description|Example|
-|---|:---|---|
-|[$not](#not-operator) | Negation logical operator|`{"field" : {$not : val}}`|
-|[$in](#in-operator)   | Match any value in array |`{"field" : {$in : [value1, value2, ...]}}`|
-|[$nin](#nin-operator)  | Not match any value in array |`{"field" : {$nin : [value1, value2, ...]}}`|
-|[$or](#or-operator)  | Logical operator |`{$or: [{"status": "GOLD"}, {"status": "SILVER"}]}`|
-|[$and](#and-operator)  | Logical operator |`{$and: [{"status": "GOLD"}, {"sales": 1000}]}`|
-
-
-### **$not** operator
-Return documents not matching the query.
-
-```js
-const query = {"name" : {$not : "Joe"}}
-```
-
-### **$in** operator
-Return documents matching any values.
-
-```js
-const query = {"name" : {$in : ["Joe", "Jane", "Donald"]}}
-```
-
-### **$nin** operator
-Return documents not matching any of the values.
-
-```js
-const query = {"name" : {$nin : ["Joe", "Jane", "Donald"]}}
-```
-
-
-### **$or** operator
-Return documents that matches one or the other field.
-
-```js
-const query = {$or: [{"name": "Jane"}, {"name": "Donald"}]}
-```
-
-### **$and** operator
-Return documents both fields.
-
-```js
-const query = {$and: [{"name": "Jane"}, {"last-name": "Cassidy"}]}
-```
-
-## Conditional operators
-
-### Quick overview
-
-|Operator|Description|Example|
-|---|:---|---|
-|$gt | Greater than |`{"salary": {$gt: 10000}}`|
-|$gte | Greater than or equal |`{"salary": {$gte: 10000}}`|
-|$lt | Less than |`{"salary": {$lt: 10000}}`|
-|$lte | Less than or equal |`{"salary": {$lte: 10000}}`|
-|$ne | Not equal |`{"email": {$ne: ""}}`|
-|$exists | Check if field exists |`{"field": {$exists: true`&#124;`false}}`|
-|$elemMatch | Array element matching |`{"contact":{$elemMatch:{"name":"Anderson", age:35}}}`|
-
-
-### **$gt** operator
-Return documents that matches each field value greater than numeric value.
-
-```js
-const query = {"salary": {$gt: 10000}}
-```
-
-### **$gte** operator
-Return documents that matches each field value greater than or equal to numeric value.
-
-```js
-const query = {"salary": {$gte: 10000}}
-```
-
-### **$lt** operator
-Return documents that matches each field value less than numeric value.
-
-```js
-const query = {"salary": {$lt: 10000}}
-```
-
-### **$lte** operator
-Return documents that matches each field value less than or equal to numeric value.
-
-```js
-const query = {"salary": {$lte: 10000}}
-```
-
-
-### **$exists** operator
-Return documents that matches each field with a value.
-
-```js
-const query = {"field": {$exists: true}}
-```
-
-### **$exists (sub array)** operator
-Return documents that matches each sub field with any value.
-
-```js
-const query = {"field.0": {$exists: true}}
-```
-
-### **$elemMatch** operator
-Return documents that matches at least one of the elements in an array field.
-
-```js
-const query = {"contact":{$elemMatch:{"name":"Anderson", age:35}}}
-```
-
-### **$date** operator
-
-Querying based on dates are done using the `$date` operator combined with ISO date strings.
-For example:
-```js
-// between two dates
-const query = {"_changed":{$gt:{"$date":"2016-08-01"}, $lt:{"$date":"2016-08-05"}}}
-```
-
-## SQL to NoSQL query mapping examples
-
-The following list shows [SQL](https://en.wikipedia.org/wiki/SQL) example statements expressed as NoSQL queries.
-
-#### `SELECT * FROM users`
-```js
+```js title="index.js"
 /*
-* SQL statement: 
-* SELECT * FROM users
-* expressed as a nosql database query
+* Auto generated Codehooks (c) example
 */
-const db = await Datastore.open();
-db.find('users')
+import {app} from 'codehooks-js'
+
+// test route for https://<PROJECTID>.api.codehooks.io/dev/
+app.get('/', (req, res) => {
+  res.send('CRUD server ready')
+})
+
+// Use Crudlify to create a REST API for any database collection
+app.crudlify()
+
+// bind to serverless runtime
+export default app.init();
 ```
 
-#### `SELECT user_id, status FROM users`
+Save the JavaScript file. 
 
-```js
-const query = {};
-const opt = {
-    hints: {$fields: {user_id: 1, status: 1}}
+## TypeScript support
+Codehooks supports TypeScript (version 5) with strong typing. Just rename the index.js file to index.ts, update the package.json main property, and your're ready to go. 
+
+The code example below shows the initial code example using TypeScript.
+
+```ts title="index.ts"
+/* TypeScript */
+import {app, httpRequest, httpResponse} from 'codehooks-js'
+
+// strong typing for request and response
+app.get('/', (req: httpRequest, res: httpResponse) => {
+  res.send('CRUD server ready')
+})
+
+// Use Crudlify to create a REST API for any database collection
+app.crudlify()
+
+// bind to serverless runtime
+export default app.init();
+```
+
+```js title="package.json"
+{
+  // rest of your package.json file
+  "main": "index.ts"
 }
-db.find('users', query, opt)
 ```
-#### `SELECT * FROM users  WHERE status = "A"`
+
+You are now ready to deploy your project.
+
+## Deploy the code to the serverless cloud
+
+```bash
+coho deploy
+```
+Example output from the deploy command.
+
+```bash
+Deploying to Project: myproject-2b39 Space: dev
+Deployed Codehook successfully! 🙌 
+```
+
+You can now test the [database CRUD REST API](/docs/databaserestapi.md) with a sample collection, for example `users`. 
+
+:::tip
+Use the `coho info --examples` command to find your project name, API tokens and working curl examples.
+:::
+
+```bash title="curl shell command - POST a new user"
+curl --location 'https://<YOUR-PROJECT-NAME>.api.codehooks.io/dev/users' \
+--header 'x-apikey: <YOUR-API-TOKEN-HERE>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Bill",
+    "email": "william@example.com",
+    "active": true
+}'
+```
+Example output from the curl test.
 
 ```js
-const query = {status: "A"};
-db.find('users', query)
-```
-
-#### `SELECT * FROM users  WHERE status != "A"`
-
-```js
-const query = {"status":{"$not":"A"}}
-db.find('users', query)
-```
-
-#### `SELECT * FROM users  WHERE status = "A" AND age = 50`
-
-```js
-const query = {"status": "A", "age": 50 }
-db.find('users', query)
-```
-
-#### `SELECT * FROM users  WHERE status = "A" OR age = 50`
-
-```js
-const query = { "$or": [ { "status": "A" } ,{ "age": 50 } ] }
-db.find('users', query)
-```
-
-#### `SELECT * FROM users  WHERE age > 25`
-
-```js
-const query = { "age": { "$gt": 25 } }
-db.find('users', query)
-```
-
-#### `SELECT * FROM users  WHERE user_id like "bc%"`
-
-```js
-const query = { "user_id": /^bc/}
-db.find('users', query)
-```
-
-#### `SELECT * FROM users  WHERE status = "A" ORDER BY name ASC`
-
-```js {5}
-// Use the CLI to create a sorted index
-// $ codehooks createindex --collection users --index name
-const query = { "status": "A" }
-const opt = {
-    sort: {"name": 1}
+{
+    "name": "Bill",
+    "email": "william@example.com",
+    "active": true,
+    "_id": "6421b3e6a3c762051688edf7"
 }
-db.find('users', query, opt)
 ```
 
-#### `SELECT * FROM users  WHERE status = "A" ORDER BY name DESC`
+Lets also test a query for the same data we've added.
 
-```js {6}
-// Use the CLI to create a sorted index
-// $ codehooks createindex --collection users --index name
-const query = { "status": "A" }
-const opt = {
-    sort: {"name": -1}
-}
-db.find('users', query, opt)
+```bash title="curl shell command - query users"
+curl --location 'https://<YOUR-PROJECT-NAME>.api.codehooks.io/dev/users?name=Bill' \
+--header 'x-apikey: <YOUR-API-TOKEN-HERE>' \
+--header 'Content-Type: application/json' \
 ```
 
-#### `SELECT COUNT(*) FROM users`
+Which returns an array of 1 object from the database.
 
 ```js
-const query = {}
-const opt = {
-    hints: {$onlycount: true}, 
-}
-db.find('users', query, opt)
+[
+    {
+        "name": "Bill",
+        "email": "william@example.com",
+        "active": true,
+        "_id": "6421b3e6a3c762051688edf7"
+    }
+]
 ```
 
-#### `SELECT COUNT(*) FROM users WHERE age > 30`
+Our test shows that the automatic REST API is accessible on the `/dev/users` route, and we can successfully add and retrieve data from the database to the client.
 
-```js
-const query = {age: {$gt: 30}}
-const opt = {
-    hints: {$onlycount: true}
-}
-db.find('users', query, opt)
-```
-
-#### `SELECT * FROM users LIMIT 1`
-
-```js
-const query = {}
-const opt = { limit: 1 }
-db.find('users', query, opt)
-```
-
-#### `SELECT * FROM users LIMIT 5 SKIP 10`
-
-```js
-const query = {}
-const opt = {
-    limit: 5,
-    offset: 10
-}
-db.find('users', query, opt)
-```
+👏👏

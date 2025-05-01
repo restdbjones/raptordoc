@@ -6,9 +6,9 @@ handlebars: false
   <img src="/images/raptordoc.png" alt="raptordoc image" width="300px" class="w-auto mx-auto" />
 </div>
 
-# Keep's your docs alive
+# Keeping your docs alive
 
-Create SEO optimized API docs using Codehooks.io as a backend
+Create SEO optimized API docs using Codehooks.io as a <strong>backend</strong>
 
 ## Installation
 
@@ -19,6 +19,7 @@ cd raptordoc
 ```
 
 2. If you don't have an account, sign up for an account at [Codehooks.io](https://account.codehooks.io/login?signup) and install the CLI:
+
 ```bash
 npm install -g codehooks
 ```
@@ -43,7 +44,7 @@ const settings = {
 	"version": "1.0.0",
 	"baseUrl": "https://captivating-quarry-e890.codehooks.io",
 	"ingress": `		
-		RaptorDoc - Keep's your docs alive
+		RaptorDoc - Keeping your docs alive
 	`,
 	"sidebars": "sidebars.yml"
 }
@@ -53,6 +54,7 @@ export default settings;
 ## Setup sidebar menu
 
 Edit the `sidebars.yaml` file and add menu items for your markdown files.
+
 
 ```yml
 menu:
@@ -72,10 +74,16 @@ menu:
 Open the `docs` folder and add your files and content.
 > Note that you can access dynamic variables from you config props in the markdown content.
 
-```md
+``` title="header"
+---
+slug: my-fancy-api
+rating: "awesome"
+---
+```
+```md title="markdownfile.md"
 # Fancy API
 
-Welcome to {{settings.version}} of the **awesome** API that ...
+Welcome to {{settings.version}} of the **{{rating}}** API that ...
 ```
 
 ## Deploy

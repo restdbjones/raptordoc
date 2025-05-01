@@ -10,13 +10,11 @@ menu:
         document: test.md#insertone-collection-document
       - title: Markdown test document
         document: markdowntest.md
-      - title: examples-overview
-        document: examples-overview.md
   - title: API docs
     open: true
     items:
-      - title: Codeexamples
-        document: codeexamples.md
+      - title: News
+        url: https://vg.no
       - title: Appeventapi
         document: appeventapi.md
       - title: CLI

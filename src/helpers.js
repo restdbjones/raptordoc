@@ -1,5 +1,11 @@
 import { Datastore } from 'codehooks-js'
 import handlebars from 'handlebars';
+import yaml from 'js-yaml';
+import { Marked } from 'marked';
+import { markedHighlight } from "marked-highlight";
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github-dark.css';
+import settings from '../raptodoc.config.js';
 const CACHE_ON = true;
 const ONE_HOUR = 1000*60*60;
 const ONE_MONTH = 1000*60*60*24*30;
@@ -185,9 +191,15 @@ handlebars.registerHelper('isArray', function(value, options) {
               {{> menuNode this.items}}
             </details>
           {{else}}
-            <a href="/docs/{{this.document}}">
-              {{#if this.icon}}{{this.icon}} {{/if}}{{this.title}}
-            </a>
+              {{#if this.url}}
+                <a href="{{this.url}}">
+                  {{#if this.icon}}{{this.icon}} {{/if}}{{this.title}}
+                </a>
+              {{else}}
+                <a href="/docs/{{this.document}}">
+                  {{#if this.icon}}{{this.icon}} {{/if}}{{this.title}}
+                </a>
+              {{/if}}
           {{/if}}
         {{else}}
           <a href="/docs/{{this}}">
@@ -211,5 +223,72 @@ const setCacheHeaders = (res) => {
     res.removeHeader('Pragma');
 }
 
+// Create a new renderer instance
+const renderer = {};
+    
+// Configure marked to use highlight.js
+const marked = new Marked(
+    markedHighlight({
+      emptyLangClass: 'hljs',
+      langPrefix: 'hljs language-',
+      highlight(code, lang, info) {
+        const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+        return hljs.highlight(code, { language }).value;
+      }
+    })
+  );
+
+// Override renderer methods
+renderer.heading = function({ tokens, depth }) {
+    const text = this.parser.parseInline(tokens);
+    const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-').replace(/-+$/, '');
+
+    return `
+            <h${depth}>
+              <a name="${escapedText}" class="anchor" href="#${escapedText}">
+                <span class="header-link"></span>
+              </a>
+              ${text}
+            </h${depth}>`;
+};
+
+renderer.image = function(token) {
+    console.log('image', token);
+    const titleAttr = token.title ? ` title="${token.title}"` : '';
+    return `<img src="${token.href}" alt="${token.text}"${titleAttr} class="max-w-full h-auto">`;
+};
+
+// Set marked options
+marked.use({ renderer });
+
+function parseMarkdown(markdownContent) {
+    const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n?/;
+    const match = frontmatterRegex.exec(markdownContent);
+
+    let props = {};
+    let markdownBody = markdownContent;
+
+    if (match) {
+        const yamlRaw = match[1];
+        props = yaml.load(yamlRaw) || {};
+        markdownBody = markdownContent.slice(match[0].length);
+    }
+    
+    // Parse the markdown content
+    
+    const compiledBody = props.handlebars ? handlebars.compile(markdownBody) : markdownBody;
+    const mappedProps = {};
+    for (const [key, value] of Object.entries(props)) {
+        mappedProps[key] = typeof value === 'string' ? marked.parseInline(value) : value;
+    }
+    const md = props.handlebars ? compiledBody({...mappedProps, settings}) : compiledBody;
+    const htmlContent = marked.parse(md);
+    console.log('props', mappedProps);
+    return {
+        props,
+        html: htmlContent
+    };
+}
+
 // Export the new function along with existing exports
-export { setCacheHeaders, writeSitemapToResponse, loadDirectoriesCached, loadTopFeaturesCached, loadAllCategoriesCached, loadCategoryFeaturesCached, loadListingByIdCached, loadListingById, loadBigBrandsCached }; 
+export { setCacheHeaders, writeSitemapToResponse, loadDirectoriesCached, loadTopFeaturesCached, loadAllCategoriesCached, loadCategoryFeaturesCached, loadListingByIdCached, loadListingById, loadBigBrandsCached, parseMarkdown }; 

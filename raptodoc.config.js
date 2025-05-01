@@ -1,9 +1,9 @@
 const settings = {
-	"title": "Raptordoc",
+	"title": "RaptorDoc",
 	"version": "1.0.0",
 	"baseUrl": "https://captivating-quarry-e890.codehooks.io",
 	"ingress": `		
-		RaptorDoc - Keep's your docs alive
+		RaptorDoc - Keeping your docs alive
 	`,
 	"sidebars": "sidebars.yml"
 }

@@ -1,6 +1,12 @@
 const lunr = require('lunr'),
     fs = require('fs');
 
+/*
+* Build the lunr index
+* Read the docs folder recursively and build a lunr index. 
+* Add each file to the index and to a kev-val store where the key is the file path and the value is the file content.
+*/
+
 // Read and parse the JSON file
 const documents = JSON.parse(fs.readFileSync('build/database-listings.json', 'utf8'))
 const showHitsData = {}
