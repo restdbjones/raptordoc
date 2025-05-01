@@ -1,12 +1,17 @@
-# About {{settings.title}}
+---
+title: RaptorDoc
+repo: "[GitHub repository](https://github.com/restdbjones/raptordoc)"
+README: "[documentation](https://github.com/restdbjones/raptordoc/blob/main/README.md)"
+---
+# About {{title}} {{settings.version}}
 
-## Create Beautiful Documentation with Raptordoc
+## Create Beautiful Documentation with {{title}}
 
-Welcome to Raptordoc - your open source solution for creating stunning, developer-friendly documentation! Whether you're documenting APIs, codebases, or technical guides, Raptordoc helps you create beautiful, SEO-optimized documentation in record time. Built with modern web technologies and a focus on developer experience, Raptordoc makes documentation a joy to write and maintain.
+Welcome to {{title}} - your open source solution for creating stunning, developer-friendly documentation! Whether you're documenting APIs, codebases, or technical guides, {{title}} helps you create beautiful, SEO-optimized documentation in record time. Built with modern web technologies and a focus on developer experience, {{title}} makes documentation a joy to write and maintain.
 
-Raptordoc is an open source project. If you want to contribute or modify any part of the documentation, please visit our [GitHub repository](https://github.com/raptordoc/raptordoc) and join our community of contributors.
+{{title}} is an open source project. If you want to contribute or modify any part of the documentation, please visit our {{{repo}}} and join our community of contributors.
 
-### Why Choose Raptordoc?
+### Why Choose {{title}}?
 
 - 🚀 **Lightning Fast Setup** - Get your documentation up and running in minutes
 - 🔍 **SEO-Ready** - Built-in SEO optimization to help your docs rank higher
@@ -33,9 +38,9 @@ Architecture docs, setup guides, contribution guidelines
 
 Creating beautiful documentation is just a few steps away:
 
-1. Fork or clone our [GitHub repository](https://github.com/raptordoc/raptordoc)
+1. Fork or clone our {{{repo}}}
 2. Set up your documentation project
 3. Customize your content and styling
 4. Deploy and share your documentation!
 
-> **Note:** Need help? Check out our [documentation](https://github.com/raptordoc/raptordoc/blob/main/README.md) or join our community for support! 
+> **Note:** Need help? Check out our {{{README}}} or join our community for support! 

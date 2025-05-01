@@ -7,7 +7,6 @@ import handlebars from 'handlebars';
 import { URL } from 'url';
 import fetch from 'node-fetch';
 import layouts from 'handlebars-layouts';
-import about from './web/templates/about.hbs';
 import layout from './web/templates/layout.hbs';
 import docpage from './web/templates/docpage.hbs';
 import {
@@ -38,7 +37,6 @@ const sidebars = yaml.load(sidebarsYaml);
 
 // Define the page templates
 const templates = {
-    about: handlebars.compile(about),
     layout: handlebars.compile(layout),
     docpage: handlebars.compile(docpage),
 }
@@ -247,7 +245,7 @@ app.get('/', async (req, res) => {
     console.log('docs', req.apiPath);
     const file = await filestore.readFile('/docs/index.md', { source: true });
     const { html, props } = parseMarkdown(file);
-    res.send(await renderPage('docpage', { sidebars: sidebars, title: settings.title, html, baseUrl: settings.baseUrl, cacheBreaker }));
+    res.send(await renderPage('docpage', { sidebars: sidebars, props, title: settings.title, html, baseUrl: settings.baseUrl, cacheBreaker }));
 });
 
 // get a file text content
@@ -256,7 +254,7 @@ app.get('/docs/*', async (req, res) => {
         console.log('docs', req.apiPath);
         const file = await filestore.readFile(req.apiPath, { source: true });
         const { html, props } = parseMarkdown(file);
-        res.send(await renderPage('docpage', { sidebars: sidebars, title: settings.title, html, baseUrl: settings.baseUrl, cacheBreaker }));
+        res.send(await renderPage('docpage', { sidebars: sidebars, props, title: settings.title, html, baseUrl: settings.baseUrl, cacheBreaker }));
     } catch (error) {
         console.error(error);
         res.status(404).end('No file here')
@@ -279,7 +277,6 @@ app.get('/contact', async (req, res) => {
 // load about
 app.get('/about', async (req, res) => {
     console.log('about');
-    const directories = await loadDirectoriesCached();
     res.send(await renderPage('about', { sidebars, title: settings.title, baseUrl: settings.baseUrl, cacheBreaker }));
 });
 
